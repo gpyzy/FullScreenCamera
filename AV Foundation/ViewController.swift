@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     
     @IBOutlet fileprivate var resultsView: UITextView!
     @IBOutlet fileprivate var showResultButton:UIButton!
+    @IBOutlet var waitLabel:UILabel!
     
     let cameraController = CameraController()
     
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
     
     let recognition = PrimerRecorgnition()
     
-    static var recorgnizedOutput:String = ""
+    var recorgnizedOutput:String = ""
 
 }
 
@@ -111,8 +112,8 @@ extension ViewController {
             
             
             //LET'S DO IT
-            self.recognition.doOCR()
-            
+            self.recognition.doOCR(viewController: self)
+            self.waitLabel.isHidden = false
             
             /// The logic is for saving images to photo library
 //            try? PHPhotoLibrary.shared().performChangesAndWait {
@@ -123,7 +124,7 @@ extension ViewController {
     
     @IBAction func toogleResults(){
         self.resultsView.isHidden = !self.resultsView.isHidden
-        self.resultsView.text = ViewController.recorgnizedOutput
+        self.resultsView.text = self.recorgnizedOutput
     }
     
 }

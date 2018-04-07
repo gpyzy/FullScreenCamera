@@ -17,6 +17,7 @@ class PrimerRecorgnition {
     //RESULT FROM OVERALL RECOGNITION
     var  recognizedWords:[String] = [String]()
     
+    var viewController:ViewController?
 
     //RESULT FROM RECOGNITION
     var recognizedRegion:String = String()
@@ -117,26 +118,35 @@ class PrimerRecorgnition {
         
         //THATS WHAT WE WANT - PRINT WORDS TO CONSOLE
         DispatchQueue.main.async {
-//            for word in self.recognizedWords
-//            {
-//                let results = regex.matches(in: word, range: NSMakeRange(0, word.count)).map{
-//                    String(word[Range($0.range, in: word)!])
-//
-//                }
-//                print(results)
-//
-//            }
+            self.viewController?.recorgnizedOutput = ""
+            for word in self.recognizedWords
+            {
+                let results = self.regex.matches(in: word, range: NSMakeRange(0, word.count)).map{
+                    String(word[Range($0.range, in: word)!])
+
+                }
+                if(results.count>0)
+                {
+                    print(results)
+                    for result in results
+                    {
+                        self.viewController?.recorgnizedOutput += result!  + "\n";
+                    }
+                }
+            }
+            
+            self.viewController?.waitLabel.isHidden = true
             // self.PrintWords(words: self.recognizedWords)
             
-            let joinedString = self.recognizedWords.joined()
-            
-            let results = self.regex.matches(in: joinedString, range: NSMakeRange(0, joinedString.count)).map{
-                                    String(joinedString[Range($0.range, in: joinedString)!])
-                }
-            
-            for result in results{
-                ViewController.recorgnizedOutput += result!  + "\n";
-            }
+//            let joinedString = self.recognizedWords.joined()
+//
+//            let results = self.regex.matches(in: joinedString, range: NSMakeRange(0, joinedString.count)).map{
+//                                    String(joinedString[Range($0.range, in: joinedString)!])
+//                }
+//
+//            for result in results{
+//                ViewController.recorgnizedOutput += result!  + "\n";
+//            }
                                // print(results)
         }
     }
@@ -152,8 +162,9 @@ class PrimerRecorgnition {
         print(word)
     }
     
-    func doOCR()
+    func doOCR(viewController:ViewController)
     {
+        self.viewController = viewController
         self.inputImage = self.inputImage?.oriented(.right)
 
         //PREPARE THE HANDLER
