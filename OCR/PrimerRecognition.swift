@@ -17,6 +17,7 @@ class PrimerRecorgnition {
     //RESULT FROM OVERALL RECOGNITION
     var  recognizedWords:[String] = [String]()
     
+
     //RESULT FROM RECOGNITION
     var recognizedRegion:String = String()
     
@@ -116,18 +117,27 @@ class PrimerRecorgnition {
         
         //THATS WHAT WE WANT - PRINT WORDS TO CONSOLE
         DispatchQueue.main.async {
-            
-            
-            for word in self.recognizedWords
-            {
-                let results = regex.matches(in: word, range: NSMakeRange(0, word.count)).map{
-                    String(word[Range($0.range, in: word)!])
-
-                }
-                print(results)
-                
-            }
+//            for word in self.recognizedWords
+//            {
+//                let results = regex.matches(in: word, range: NSMakeRange(0, word.count)).map{
+//                    String(word[Range($0.range, in: word)!])
+//
+//                }
+//                print(results)
+//
+//            }
             // self.PrintWords(words: self.recognizedWords)
+            
+            let joinedString = self.recognizedWords.joined()
+            
+            let results = self.regex.matches(in: joinedString, range: NSMakeRange(0, joinedString.count)).map{
+                                    String(joinedString[Range($0.range, in: joinedString)!])
+                }
+            
+            for result in results{
+                ViewController.recorgnizedOutput += result!  + "\n";
+            }
+                               // print(results)
         }
     }
     

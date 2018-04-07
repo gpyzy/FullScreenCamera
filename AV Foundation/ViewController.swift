@@ -24,13 +24,17 @@ class ViewController: UIViewController {
     ///Allows the user to put the camera in video mode.
     @IBOutlet fileprivate var videoModeButton: UIButton!
     
+    @IBOutlet fileprivate var resultsView: UITextView!
+    @IBOutlet fileprivate var showResultButton:UIButton!
+    
     let cameraController = CameraController()
     
     override var prefersStatusBarHidden: Bool { return true }
     
     let recognition = PrimerRecorgnition()
     
-    
+    static var recorgnizedOutput:String = ""
+
 }
 
 extension ViewController {
@@ -52,6 +56,8 @@ extension ViewController {
             
             captureButton.layer.cornerRadius = min(captureButton.frame.width, captureButton.frame.height) / 2
         }
+        
+        self.resultsView.isHidden = true
         
         styleCaptureButton()
         configureCameraController()
@@ -113,6 +119,11 @@ extension ViewController {
 //                PHAssetChangeRequest.creationRequestForAsset(from: image)
 //            }
         }
+    }
+    
+    @IBAction func toogleResults(){
+        self.resultsView.isHidden = !self.resultsView.isHidden
+        self.resultsView.text = ViewController.recorgnizedOutput
     }
     
 }
