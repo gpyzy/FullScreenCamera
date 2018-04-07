@@ -28,6 +28,9 @@ class ViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool { return true }
     
+    let recognition = PrimerRecorgnition()
+    
+    
 }
 
 extension ViewController {
@@ -97,9 +100,18 @@ extension ViewController {
                 return
             }
             
-            try? PHPhotoLibrary.shared().performChangesAndWait {
-                PHAssetChangeRequest.creationRequestForAsset(from: image)
-            }
+            //WE NEED AN CIIMAGE - NO NEED TO SCALE
+            self.recognition.inputImage = CIImage(image:image)!
+            
+            
+            //LET'S DO IT
+            self.recognition.doOCR()
+            
+            
+            /// The logic is for saving images to photo library
+//            try? PHPhotoLibrary.shared().performChangesAndWait {
+//                PHAssetChangeRequest.creationRequestForAsset(from: image)
+//            }
         }
     }
     
